@@ -22,8 +22,7 @@ function App() {
         </Route>
         <Route
           exact
-          path="/foods"
-        >
+          path="/foods">
           <Foods />
         </Route>
         <Route
@@ -31,6 +30,15 @@ function App() {
           path="/orders">
           <Orders />
         </Route>
+        <Route
+          exact
+          path="/restaurants/:restaurantID/foods"
+          render={({ match }) =>
+            <Foods
+              match={match}
+            />
+          }
+        />
       </Switch>
     </Router>
   );
