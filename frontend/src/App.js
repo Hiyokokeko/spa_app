@@ -32,7 +32,7 @@ function App() {
         </Route>
         <Route
           exact
-          path="/restaurants/:restaurantID/foods"
+          path="/restaurants/:restaurantsID/foods"
           render={({ match }) =>
             <Foods
               match={match}
