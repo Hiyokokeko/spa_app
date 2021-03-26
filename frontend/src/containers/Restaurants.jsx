@@ -15,13 +15,14 @@ import {
   restaurantsReducer,
 } from '../reducers/restaurants';
 
-// contents
+// constants
 import { REQUEST_STATE } from '../constants';
 
 // images
 import MainLogo from '../images/logo.png';
 import MainCoverImage from '../images/main-cover-image.png';
 import RestaurantImage from '../images/restaurant-image.jpg';
+
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -67,6 +68,7 @@ const SubText = styled.p`
   font-size: 12px;
 `;
 
+
 export const Restaurants = () => {
   const [state, dispatch] = useReducer(restaurantsReducer, initialState);
 
@@ -93,7 +95,7 @@ export const Restaurants = () => {
       </MainCoverImageWrapper>
       <RestaurantsContentsList>
         {
-          state.fetchState === REQUEST_STATE.LODIBG ?
+          state.fetchState === REQUEST_STATE.LOADING ?
             <Fragment>
               <Skeleton variant="rect" width={450} height={300} />
               <Skeleton variant="rect" width={450} height={300} />
