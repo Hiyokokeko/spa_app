@@ -3,9 +3,11 @@ import React, { Fragment, useEffect } from 'react';
 // apis
 import { fetchFoods } from '../apis/foods';
 
-export const Foods = () => {
+export const Foods = ({
+  match
+}) => {
   useEffect(() => {
-    fetchFoods(1)
+    fetchFoods(match.params.restaurantsID)
       .then((data) =>
         console.log(data)
       )
