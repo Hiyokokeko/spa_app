@@ -1,4 +1,8 @@
 import React, { Fragment, useEffect, useReducer } from 'react';
+import styled from 'styled-components';
+import { COLORS } from '../style_constants';
+import { LocalMallIcon } from '../components/Icons';
+
 
 // reducers
 import {
@@ -12,6 +16,29 @@ import { fetchFoods } from '../apis/foods';
 
 // constants
 import { REQUEST_STATE } from '../constants';
+
+// images
+import MainLogo from '../images/logo.png';
+
+
+const HeaderWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 32px;
+`;
+
+const MainLogoImage = styled.img`
+  height: 90px;
+`;
+
+const BagIconWrapper = styled.div`
+  padding-top: 24px;
+`;
+
+const ColoredBagIcon = styled(LocalMallIcon)`
+  color: ${COLORS.MAIN};
+`;
+
 
 export const Foods = ({
   match
@@ -33,6 +60,12 @@ export const Foods = ({
 
   return (
     <Fragment>
+      <HeaderWrapper>
+        <MainLogoImage src={MainLogo} alt="main logo" />
+        <BagIconWrapper>
+          <ColoredBagIcon fontSize="large" />
+        </BagIconWrapper>
+      </HeaderWrapper>
       {
         foodsState.fetchState === REQUEST_STATE.LOADING ?
           <Fragment>
