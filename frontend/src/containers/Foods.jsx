@@ -1,15 +1,12 @@
-import React, { Fragment, useEffect, useReducer, useState } from 'react';
+import React, { Fragment, useReducer, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useHistory, Link } from "react-router-dom";
 
 // components
 import { LocalMallIcon } from '../components/Icons';
 import { FoodWrapper } from '../components/FoodWrapper';
-import Skeleton from '@material-ui/lab/Skeleton';
-import { FoodOrderDialog } from '../components/FoodOrderDialog';
 import { NewOrderConfirmDialog } from '../components/NewOrderConfirmDialog';
-import { postLineFoods, replaceLineFoods } from '../apis/line_foods';
-import { HTTP_STATUS_CODE } from '../constants';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 // reducers
 import {
@@ -20,24 +17,22 @@ import {
 
 // apis
 import { fetchFoods } from '../apis/foods';
-
-// constants
-import { REQUEST_STATE } from '../constants';
-import { COLORS } from '../style_constants';
+import { postLineFoods, replaceLineFoods } from '../apis/line_foods';
 
 // images
 import MainLogo from '../images/logo.png';
+import { FoodOrderDialog } from '../components/FoodOrderDialog';
 import FoodImage from '../images/food-image.jpg';
 
+// constants
+import { HTTP_STATUS_CODE } from '../constants';
+import { COLORS } from '../style_constants';
+import { REQUEST_STATE } from '../constants';
 
 const HeaderWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 8px 32px;
-`;
-
-const MainLogoImage = styled.img`
-  height: 90px;
 `;
 
 const BagIconWrapper = styled.div`
@@ -47,6 +42,10 @@ const BagIconWrapper = styled.div`
 const ColoredBagIcon = styled(LocalMallIcon)`
   color: ${COLORS.MAIN};
 `;
+
+const MainLogoImage = styled.img`
+  height: 90px;
+`
 
 const FoodsList = styled.div`
   display: flex;
@@ -59,15 +58,9 @@ const ItemWrapper = styled.div`
   margin: 16px;
 `;
 
-
 export const Foods = ({
   match
 }) => {
-
-  const history = useHistory();
-
-  const [foodsState, dispatch] = useReducer(foodsReducer, foodsInitialState);
-
   const initialState = {
     isOpenOrderDialog: false,
     selectedFood: null,
@@ -76,12 +69,13 @@ export const Foods = ({
     existingResutaurautName: '',
     newResutaurautName: '',
   };
-
   const [state, setState] = useState(initialState);
+  const [foodsState, dispatch] = useReducer(foodsReducer, foodsInitialState);
+  const history = useHistory();
 
   useEffect(() => {
     dispatch({ type: foodsActionTyps.FETCHING });
-    fetchFoods(match.params.restaurantsID)
+    fetchFoods(match.params.restaurantsId)
       .then((data) => {
         dispatch({
           type: foodsActionTyps.FETCH_SUCCESS,
@@ -90,7 +84,7 @@ export const Foods = ({
           }
         });
       })
-  }, [])
+  }, []);
 
   const submitOrder = () => {
     postLineFoods({
@@ -117,7 +111,7 @@ export const Foods = ({
       foodId: state.selectedFood.id,
       count: state.selectedFoodCount,
     }).then(() => history.push('/orders'))
-  };
+  }
 
   return (
     <Fragment>
@@ -148,12 +142,13 @@ export const Foods = ({
               <ItemWrapper key={food.id}>
                 <FoodWrapper
                   food={food}
-                  // フードitemクリック時にsetStateする
-                  onClickFoodWrapper={(food) => setState({
-                    ...state,
-                    selectedFood: food,
-                    isOpenOrderDialog: true,
-                  })}
+                  onClickFoodWrapper={
+                    (food) => setState({
+                      ...state,
+                      selectedFood: food,
+                      isOpenOrderDialog: true,
+                    })
+                  }
                   imageUrl={FoodImage}
                 />
               </ItemWrapper>
@@ -174,9 +169,7 @@ export const Foods = ({
             ...state,
             selectedFoodCount: state.selectedFoodCount - 1,
           })}
-          // 先ほど作った関数を渡します
           onClickOrder={() => submitOrder()}
-          // モーダルを閉じる時はすべてのstateを初期化する
           onClose={() => setState({
             ...state,
             isOpenOrderDialog: false,
@@ -185,7 +178,6 @@ export const Foods = ({
           })}
         />
       }
-
       {
         state.isOpenNewOrderDialog &&
         <NewOrderConfirmDialog
