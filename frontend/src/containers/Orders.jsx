@@ -1,13 +1,29 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useReducer } from 'react';
 
+// apis
 import { fetchLineFoods } from '../apis/line_foods';
+
+// reducers
+import {
+  initialState,
+  lineFoodsActionTyps,
+  lineFoodsReducer,
+} from '../reducers/lineFoods';
 
 export const Orders = () => {
 
+  const [state, dispatch] = useReducer(lineFoodsReducer, initialState);
+
   useEffect(() => {
+    dispatch({ type: lineFoodsActionTyps.FETCHING });
     fetchLineFoods()
       .then((data) =>
-        console.log(data)
+        dispatch({
+          type: lineFoodsActionTyps.FETCH_SUCCESS,
+          payload: {
+            lineFoodsSummary: data
+          }
+        })
       )
       .catch((e) => console.error(e));
   }, []);
