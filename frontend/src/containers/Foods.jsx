@@ -23,17 +23,15 @@ import { postLineFoods, replaceLineFoods } from '../apis/line_foods';
 import MainLogo from '../images/logo.png';
 import { FoodOrderDialog } from '../components/FoodOrderDialog';
 import FoodImage from '../images/food-image.jpg';
+import {
+  HeaderWrapper,
+  MainLogoImage
+} from '../components/StyledHeader.jsx';
 
 // constants
 import { HTTP_STATUS_CODE } from '../constants';
 import { COLORS } from '../style_constants';
 import { REQUEST_STATE } from '../constants';
-
-const HeaderWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 32px;
-`;
 
 const BagIconWrapper = styled.div`
   padding-top: 24px;
@@ -42,10 +40,6 @@ const BagIconWrapper = styled.div`
 const ColoredBagIcon = styled(LocalMallIcon)`
   color: ${COLORS.MAIN};
 `;
-
-const MainLogoImage = styled.img`
-  height: 90px;
-`
 
 const FoodsList = styled.div`
   display: flex;
